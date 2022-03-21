@@ -1,9 +1,8 @@
 import React from 'react';
-import { MinusCircleOutlined, CheckCircleOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { handleGetDataList, handleDeleteDataItem, handleAddDataList } from './utils/ajaxAction';
 import RenderContent from '@/components/render-content';
 import RenderHeader from '@/components/render-header';
-import { Table, Space, Popconfirm, Tag } from 'antd';
+import { Table, Space, Popconfirm } from 'antd';
 import renderDrawer from './components/renderDrawer';
 import './index.less';
 
@@ -16,7 +15,7 @@ export default class ResourceManagement extends React.Component {
       count: 0,
       currentPage: 1,
       visible: false,
-      title: '新增资源',
+      title: '新增路由',
       dataItemId: null,
     };
     this.handleGetDataList = handleGetDataList.bind(this);
@@ -39,73 +38,19 @@ export default class ResourceManagement extends React.Component {
         key: 'productCode',
       },
       {
-        title: 'JS地址',
-        dataIndex: 'source',
-        key: 'sourceJs',
-        render: (text, record) => {
-          let resource = { js: [], css: [] };
-          try {
-            resource = JSON.parse(text);
-          } catch (error) {
-            console.error(error);
-          }
-          const option = {
-            0: { icon: <CheckCircleOutlined />, color: 'success' },
-            1: { icon: <MinusCircleOutlined />, color: 'default' },
-          };
-          return (
-            <div className="table-js-css">
-              {resource.js.map((item) => (
-                <Tag key={item} {...option[record.isDisabled]}>
-                  {item}
-                </Tag>
-              ))}
-            </div>
-          );
-        },
+        title: '路由名称',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
-        title: 'CSS地址',
-        dataIndex: 'source',
-        key: 'sourceCss',
-        render: (text, record) => {
-          let resource = { js: [], css: [] };
-          try {
-            resource = JSON.parse(text);
-          } catch (error) {
-            console.error(error);
-          }
-          const option = {
-            0: { icon: <CheckCircleOutlined />, color: 'success' },
-            1: { icon: <MinusCircleOutlined />, color: 'default' },
-          };
-          return (
-            <div className="table-js-css">
-              {resource.css.map((item, index) => (
-                <Tag key={index} {...option[record.isDisabled]}>
-                  {item}
-                </Tag>
-              ))}
-            </div>
-          );
-        },
+        title: '路由路径',
+        dataIndex: 'path',
+        key: 'path',
       },
       {
         title: '创建人',
         dataIndex: 'owner',
         key: 'owner',
-      },
-      {
-        title: '是否禁用',
-        dataIndex: 'isDisabled',
-        key: 'isDisabled',
-        render: (text, record) => {
-          const option = {
-            0: { icon: <CheckCircleOutlined />, color: 'success' },
-            1: { icon: <MinusCircleOutlined />, color: 'default' },
-          };
-          return <Tag {...option[text]}>{text === 0 ? '已启用' : '已禁用'}</Tag>;
-        },
       },
       {
         title: '创建时间',
@@ -122,23 +67,10 @@ export default class ResourceManagement extends React.Component {
       {
         title: '操作',
         key: 'action',
+        width: 140,
         render: (text, record) => {
-          const option = {
-            0: { icon: <PauseCircleOutlined />, color: 'error' },
-            1: { icon: <PlayCircleOutlined />, color: 'processing' },
-          };
           return (
             <Space size="middle">
-              <a
-                onClick={() =>
-                  this.handleAddDataList({
-                    id: record.id,
-                    isDisabled: record.isDisabled ? 0 : 1,
-                  })
-                }
-              >
-                <Tag {...option[record.isDisabled]}>{record.isDisabled === 0 ? '禁用' : '启用'}</Tag>
-              </a>
               <a onClick={() => this.handleEditData(record)}>编辑</a>
               <Popconfirm title="您确定要删除吗?" onConfirm={() => this.handleDeleteDataItem(record.id)} okText="是" cancelText="否">
                 <a>删除</a>
@@ -168,13 +100,10 @@ export default class ResourceManagement extends React.Component {
   }
 
   async handleGetFormData() {
-    const values = await this.formRef.validateFields();
-    const source = JSON.stringify(values);
+    const request = await this.formRef.validateFields();
     const { productCode } = this.props.location.query;
-    const request = {
-      productCode,
-      source,
-    };
+    request.productCode = productCode;
+
     if (this.state.dataItemId) {
       request.id = this.state.dataItemId;
     }
@@ -185,30 +114,24 @@ export default class ResourceManagement extends React.Component {
     this.setState(
       {
         visible: true,
-        title: '编辑资源',
+        title: '编辑路由',
         dataItemId: record.id,
       },
       () => {
-        let resource = { js: [], css: [] };
-        try {
-          resource = JSON.parse(record.source);
-        } catch (error) {
-          console.error(error);
-        }
-        this.formRef.setFieldsValue(resource);
+        this.formRef.setFieldsValue(record);
       },
     );
   }
 
   render() {
     return (
-      <div className="resource-management">
+      <div className="router-management">
         <RenderHeader title="资源管理" backUrl="/product" />
         <RenderContent
           renderLeft={[
             {
               key: 1,
-              title: '新增资源',
+              title: '新增路由',
               onClick: () => {
                 this.formRef?.resetFields();
                 this.setState({

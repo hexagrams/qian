@@ -15,5 +15,6 @@ declare interface Window {
     };
     [propName: string]: any;
   };
+  sysAjax: any;
   sysPush: any;
 }

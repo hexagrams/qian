@@ -1,5 +1,6 @@
 import { Form, Input, Button, Drawer } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { CheckStatus } from '@/utils/index';
 
 const formItemLayoutWithOutLabel = {
   wrapperCol: {
@@ -8,16 +9,16 @@ const formItemLayoutWithOutLabel = {
   },
 };
 export default function renderDrawer() {
-  const { visible, title } = this.state
+  const { visible, title } = this.state;
   return (
     <Drawer
-      className='resource-drawer'
+      className="resource-drawer"
       title={title}
       width={500}
       onClose={() => {
         this.setState({
-          visible: false
-        })
+          visible: false,
+        });
       }}
       visible={visible}
       footer={
@@ -29,10 +30,11 @@ export default function renderDrawer() {
           <Button
             onClick={() => {
               this.setState({
-                visible: false
-              })
+                visible: false,
+              });
             }}
-            style={{ marginRight: 8 }}>
+            style={{ marginRight: 8 }}
+          >
             取消
           </Button>
           <Button onClick={() => this.handleGetFormData()} type="primary">
@@ -41,10 +43,16 @@ export default function renderDrawer() {
         </div>
       }
     >
-      <Form layout="vertical" ref={(ref) => { this.formRef = ref }} {...formItemLayoutWithOutLabel}>
+      <Form
+        layout="vertical"
+        ref={(ref) => {
+          this.formRef = ref;
+        }}
+        {...formItemLayoutWithOutLabel}
+      >
         <Form.List
           name="js"
-          initialValue={[""]}
+          initialValue={['']}
           rules={[
             {
               validator: async (_, names) => {
@@ -54,17 +62,11 @@ export default function renderDrawer() {
               },
             },
           ]}
-
         >
           {(fields, { add, remove }, { errors }) => (
             <>
               {fields.map((field, index) => (
-                <Form.Item
-                  label={index === 0 ? 'JS资源' : ''}
-                  required={false}
-                  key={field.key}
-                  className={fields.length <= 1 ? 'form-list' : ''}
-                >
+                <Form.Item label={index === 0 ? 'JS资源' : ''} required={false} key={field.key} className={fields.length <= 1 ? 'form-list' : ''}>
                   <Form.Item
                     {...field}
                     validateTrigger={['onChange', 'onBlur']}
@@ -72,12 +74,16 @@ export default function renderDrawer() {
                       {
                         required: true,
                         whitespace: true,
-                        message: "请输入JS资源",
+                        message: '请输入JS资源',
                       },
                       {
                         validator: async (_, names) => {
                           if (names?.indexOf('.js') === -1) {
                             return Promise.reject(new Error('请输入正确格式的js资源'));
+                          }
+                          const status = await CheckStatus(names);
+                          if (!status) {
+                            return Promise.reject(new Error('无效的js资源'));
                           }
                         },
                       },
@@ -86,21 +92,11 @@ export default function renderDrawer() {
                   >
                     <Input placeholder="请输入JS资源" style={{ width: '90%' }} />
                   </Form.Item>
-                  {fields.length > 1 ? (
-                    <MinusCircleOutlined
-                      className="dynamic-delete-button"
-                      onClick={() => remove(field.name)}
-                    />
-                  ) : null}
+                  {fields.length > 1 ? <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} /> : null}
                 </Form.Item>
               ))}
               <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  style={{ width: '90%', marginBottom: "24px" }}
-                  icon={<PlusOutlined />}
-                >
+                <Button type="dashed" onClick={() => add()} style={{ width: '90%', marginBottom: '24px' }} icon={<PlusOutlined />}>
                   新增JS资源
                 </Button>
                 <Form.ErrorList errors={errors} />
@@ -111,7 +107,7 @@ export default function renderDrawer() {
 
         <Form.List
           name="css"
-          initialValue={[""]}
+          initialValue={['']}
           rules={[
             {
               validator: async (_, names) => {
@@ -122,57 +118,48 @@ export default function renderDrawer() {
             },
           ]}
         >
-          {(fields, { add, remove }, { errors }) => <>
-            {fields.map((field, index) => (
-              <Form.Item
-                label={index === 0 ? 'CSS资源' : ''}
-                required={false}
-                key={field.key}
-                className={fields.length <= 1 ? 'form-list' : ''}
-              >
-                <Form.Item
-                  {...field}
-                  validateTrigger={['onChange', 'onBlur']}
-                  rules={[
-                    {
-                      required: true,
-                      whitespace: true,
-                      message: "请输入CSS资源",
-                    },
-                    {
-                      validator: async (_, names) => {
-                        if (names?.indexOf('.css') === -1) {
-                          return Promise.reject(new Error('请输入正确格式的css资源'));
-                        }
+          {(fields, { add, remove }, { errors }) => (
+            <>
+              {fields.map((field, index) => (
+                <Form.Item label={index === 0 ? 'CSS资源' : ''} required={false} key={field.key} className={fields.length <= 1 ? 'form-list' : ''}>
+                  <Form.Item
+                    {...field}
+                    validateTrigger={['onChange', 'onBlur']}
+                    rules={[
+                      {
+                        required: true,
+                        whitespace: true,
+                        message: '请输入CSS资源',
                       },
-                    },
-                  ]}
-                  noStyle
-                >
-                  <Input placeholder="请输入CSS资源" style={{ width: '90%' }} />
+                      {
+                        validator: async (_, names) => {
+                          if (names?.indexOf('.css') === -1) {
+                            return Promise.reject(new Error('请输入正确格式的css资源'));
+                          }
+                          const status = await CheckStatus(names);
+                          if (!status) {
+                            return Promise.reject(new Error('无效的css资源'));
+                          }
+                        },
+                      },
+                    ]}
+                    noStyle
+                  >
+                    <Input placeholder="请输入CSS资源" style={{ width: '90%' }} />
+                  </Form.Item>
+                  {fields.length > 1 ? <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} /> : null}
                 </Form.Item>
-                {fields.length > 1 ? (
-                  <MinusCircleOutlined
-                    className="dynamic-delete-button"
-                    onClick={() => remove(field.name)}
-                  />
-                ) : null}
+              ))}
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} style={{ width: '90%' }} icon={<PlusOutlined />}>
+                  新增CSS资源
+                </Button>
+                <Form.ErrorList errors={errors} />
               </Form.Item>
-            ))}
-            <Form.Item>
-              <Button
-                type="dashed"
-                onClick={() => add()}
-                style={{ width: '90%' }}
-                icon={<PlusOutlined />}
-              >
-                新增CSS资源
-              </Button>
-              <Form.ErrorList errors={errors} />
-            </Form.Item>
-          </>}
+            </>
+          )}
         </Form.List>
       </Form>
     </Drawer>
-  )
+  );
 }

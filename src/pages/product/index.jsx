@@ -48,6 +48,11 @@ export default class Product extends React.Component {
         key: 'description',
       },
       {
+        title: '创建人',
+        dataIndex: 'owner',
+        key: 'owner',
+      },
+      {
         title: '是否禁用',
         dataIndex: 'isDisabled',
         key: 'isDisabled',
@@ -63,16 +68,18 @@ export default class Product extends React.Component {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
+        width: 180,
       },
       {
         title: '更新时间',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
+        width: 180,
       },
       {
         title: '操作',
         key: 'action',
-        width: 260,
+        width: 330,
         render: (text, record) => {
           const option = {
             0: { icon: <PauseCircleOutlined />, color: 'error' },
@@ -92,6 +99,7 @@ export default class Product extends React.Component {
                 <Tag {...option[record.isDisabled]}>{record.isDisabled === 0 ? '禁用' : '启用'}</Tag>
               </a>
               <a onClick={() => window.sysPush(`/product/resourceManagement?productCode=${record.productCode}`)}>资源管理</a>
+              <a onClick={() => window.sysPush(`/product/routerManagement?productCode=${record.productCode}`)}>路由管理</a>
               <a onClick={() => this.handleEditDataItem(record)}>编辑</a>
               <Popconfirm title="您确定要删除吗?" onConfirm={() => this.handleDeleteDataItem(record.id)} okText="是" cancelText="否">
                 <a>删除</a>

@@ -4,7 +4,8 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import isEmpty from 'lodash/isEmpty';
 import 'nprogress/nprogress.css';
-var instance = axios.create({
+
+const instance = axios.create({
   timeout: 10000,
   // 超时时间10秒
   withCredentials: true,
@@ -14,8 +15,8 @@ var instance = axios.create({
   // 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
   // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
   transformRequest: [
-    function (data) {
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    function(data) {
+      const config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       // 页面请求Headers增加打标信息
       config.common = Object.assign(
         {
@@ -24,18 +25,18 @@ var instance = axios.create({
         config.common || {},
       ); // 对 data 进行任意转换处理
 
-      var ret = [];
+      let ret = [];
 
       if (isEmpty(data)) {
         return ret;
       }
 
-      var requestDataType = data.requestDataType || 'JSON';
+      const requestDataType = data.requestDataType || 'JSON';
       delete data.requestDataType;
 
       if (requestDataType === 'FormData') {
         ret = new FormData();
-        Object.keys(data).forEach(function (key) {
+        Object.keys(data).forEach((key) => {
           if (typeof data[key] !== 'undefined') {
             ret.append(key, data[key]);
           }
@@ -47,7 +48,7 @@ var instance = axios.create({
       }
 
       if (data.objectString) {
-        Object.keys(data).forEach(function (key) {
+        Object.keys(data).forEach((key) => {
           if (data[key]) {
             if (key === 'objectString') {
               ret.push('objectString='.concat(encodeURIComponent(JSON.stringify(data.objectString))));
@@ -66,50 +67,47 @@ var instance = axios.create({
   ],
   // `transformResponse` 在传递给 then/catch 前，允许修改响应数据
   transformResponse: [
-    function (response) {
+    function(response) {
       return response;
     },
   ],
 }); // 添加请求拦截器
 
 instance.interceptors.request.use(
-  function (config) {
+  (config) => {
     !config.limitProgress && NProgress.start();
     return config;
   },
-  function (error) {
+  (error) => {
     console.error(error);
     return Promise.reject(error);
   },
 ); // 添加获取截器
 
 instance.interceptors.response.use(
-  function (response) {
-    var _response$config, _response$config$head;
+  (response) => {
+    let _response$config;
+    let _response$config$head;
 
     // 进度条
     !response.config.limitProgress && NProgress.done(); // 是否接管报错提示
 
-    var requestMessage =
-      (_response$config = response.config) === null || _response$config === void 0
-        ? void 0
-        : (_response$config$head = _response$config.headers) === null || _response$config$head === void 0
-        ? void 0
-        : _response$config$head.requestMessage; // 数据json化处理
+    const requestMessage = (_response$config = response.config) === null || _response$config === void 0 ? void 0 : (_response$config$head = _response$config.headers) === null || _response$config$head === void 0 ? void 0 : _response$config$head.requestMessage; // 数据json化处理
 
-    var data = response.data;
+    let { data } = response;
 
     try {
-      var _response$request2;
+      let _response$request2;
 
       if (typeof data === 'string') {
         if (/<!DOCTYPE html>/gi.test(data)) {
-          var _response$request;
+          let _response$request;
 
+          // eslint-disable-next-line no-return-assign
           return {
             code: '401',
             success: false,
-            data: data,
+            data,
             message: '登入信息失效！',
             responseURL: response === null || response === void 0 ? void 0 : (_response$request = response.request) === null || _response$request === void 0 ? void 0 : _response$request.responseURL,
           };
@@ -122,8 +120,7 @@ instance.interceptors.response.use(
         _message.error(data.message || '服务异常！');
       }
 
-      data.responseURL =
-        response === null || response === void 0 ? void 0 : (_response$request2 = response.request) === null || _response$request2 === void 0 ? void 0 : _response$request2.responseURL;
+      data.responseURL = response === null || response === void 0 ? void 0 : (_response$request2 = response.request) === null || _response$request2 === void 0 ? void 0 : _response$request2.responseURL;
       return data;
     } catch (error) {
       console.error(error);
@@ -131,7 +128,7 @@ instance.interceptors.response.use(
       return data;
     }
   },
-  function (error) {
+  (error) => {
     console.error(error);
     return Promise.reject(error);
   },
