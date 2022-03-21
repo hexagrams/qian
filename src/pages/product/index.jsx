@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  MinusCircleOutlined,
-  CheckCircleOutlined,
-  PauseCircleOutlined,
-  PlayCircleOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, CheckCircleOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { handleGetDataList, handleDeleteDataItem, handleAddDataList } from './utils/ajaxAction';
 import RenderPages from '@/components/render-pages';
 import { Table, Space, Popconfirm, Tag } from 'antd';
@@ -94,24 +89,11 @@ export default class Product extends React.Component {
                   })
                 }
               >
-                <Tag {...option[record.isDisabled]}>
-                  {record.isDisabled === 0 ? '禁用' : '启用'}
-                </Tag>
+                <Tag {...option[record.isDisabled]}>{record.isDisabled === 0 ? '禁用' : '启用'}</Tag>
               </a>
-              <a
-                onClick={() =>
-                  window.sysPush(`/product/resourceManagement?productCode=${record.productCode}`)
-                }
-              >
-                资源管理
-              </a>
+              <a onClick={() => window.sysPush(`/product/resourceManagement?productCode=${record.productCode}`)}>资源管理</a>
               <a onClick={() => this.handleEditDataItem(record)}>编辑</a>
-              <Popconfirm
-                title="您确定要删除吗?"
-                onConfirm={() => this.handleDeleteDataItem(record.id)}
-                okText="是"
-                cancelText="否"
-              >
+              <Popconfirm title="您确定要删除吗?" onConfirm={() => this.handleDeleteDataItem(record.id)} okText="是" cancelText="否">
                 <a>删除</a>
               </Popconfirm>
             </Space>

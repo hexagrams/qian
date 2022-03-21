@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  MinusCircleOutlined,
-  CheckCircleOutlined,
-  PauseCircleOutlined,
-  PlayCircleOutlined,
-} from '@ant-design/icons';
+import { MinusCircleOutlined, CheckCircleOutlined, PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { handleGetDataList, handleDeleteDataItem, handleAddDataList } from './utils/ajaxAction';
 import RenderContent from '@/components/render-content';
 import RenderHeader from '@/components/render-header';
@@ -140,17 +135,10 @@ export default class ResourceManagement extends React.Component {
                   })
                 }
               >
-                <Tag {...option[record.isDisabled]}>
-                  {record.isDisabled === 0 ? '禁用' : '启用'}
-                </Tag>
+                <Tag {...option[record.isDisabled]}>{record.isDisabled === 0 ? '禁用' : '启用'}</Tag>
               </a>
               <a onClick={() => this.handleEditData(record)}>编辑</a>
-              <Popconfirm
-                title="您确定要删除吗?"
-                onConfirm={() => this.handleDeleteDataItem(record.id)}
-                okText="是"
-                cancelText="否"
-              >
+              <Popconfirm title="您确定要删除吗?" onConfirm={() => this.handleDeleteDataItem(record.id)} okText="是" cancelText="否">
                 <a>删除</a>
               </Popconfirm>
             </Space>
