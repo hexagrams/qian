@@ -3,13 +3,16 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   title: false,
   history: {
-    type: 'hash',
+    type: 'browser',
   },
   hash: false,
   outputPath: './build',
   ignoreMomentLocale: true,
   nodeModulesTransform: {
     type: 'none',
+  },
+  qiankun: {
+    slave: {},
   },
   webpack5: {}, // 启动webpack5
   locale: {
