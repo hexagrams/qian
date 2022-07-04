@@ -25,6 +25,7 @@
   "dependencies": {
     "@alifd/next": "^1.25.27",
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/pro-components": "^1.1.7",
     "@ice/stark": "^2.7.1",
     "@ice/stark-app": "^1.5.0",
     "@ice/stark-data": "^0.1.3",

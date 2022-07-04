@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { RollbackOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import { history } from 'umi';
 import './index.less';
 
 export interface RenderHeaderProps {
@@ -11,13 +12,7 @@ export interface RenderHeaderProps {
   className?: string;
 }
 
-const RenderHeader = ({
-  title = null,
-  backUrl = null,
-  center,
-  right,
-  className,
-}: RenderHeaderProps) => {
+const RenderHeader = ({ title = null, backUrl = null, center, right, className }: RenderHeaderProps) => {
   return (
     <header
       className={classNames(
@@ -31,7 +26,7 @@ const RenderHeader = ({
         {backUrl ? (
           <RollbackOutlined
             onClick={() => {
-              window.sysPush(backUrl);
+              history.push(backUrl);
             }}
           />
         ) : null}

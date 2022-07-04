@@ -40,8 +40,8 @@ export default defineConfig({
   },
   proxy: {
     '/api': {
-      //  target: 'http://linshenglong.cn',
-      target: 'http://127.0.0.1:7001',
+      target: 'http://linshenglong.cn',
+      //target: 'http://127.0.0.1:7001',
       changeOrigin: true,
       // pathRewrite: { '^/igate': '' },
     },
