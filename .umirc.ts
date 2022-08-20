@@ -3,11 +3,12 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   title: false,
   history: {
-    type: 'browser',
+    type: 'hash',
   },
   hash: false,
   outputPath: './build',
   ignoreMomentLocale: true,
+  runtimePublicPath: true,
   nodeModulesTransform: {
     type: 'none',
   },
@@ -27,21 +28,17 @@ export default defineConfig({
   alias: {
     '@': './src',
   },
-  chainWebpack(config) {
-    // 设置出口文件名
-    config.plugin('extract-css').tap(() => [
-      {
-        filename: `main.css`,
-        chunkFilename: `[name].chunk.css`,
-        ignoreOrder: true,
-      },
-    ]);
-    config.output.filename('app.js');
-  },
+  chainWebpack(config) {},
   proxy: {
     '/api': {
-      target: 'http://linshenglong.cn',
-      //target: 'http://127.0.0.1:7001',
+      //target: 'http://linshenglong.cn',
+      target: 'http://127.0.0.1:7001',
+      changeOrigin: true,
+      // pathRewrite: { '^/igate': '' },
+    },
+    '/public': {
+      //target: 'http://linshenglong.cn',
+      target: 'http://127.0.0.1:7001',
       changeOrigin: true,
       // pathRewrite: { '^/igate': '' },
     },
