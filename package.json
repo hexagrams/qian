@@ -22,6 +22,7 @@
     ]
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^1.1.20",
     "@ant-design/pro-layout": "^6.5.0",
     "@hexagrams/plugin-ice-stark": "0.0.9",
