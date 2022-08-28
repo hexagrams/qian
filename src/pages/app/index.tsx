@@ -184,7 +184,7 @@ export default () => {
             />
             <ProFormText
               name="publicPath"
-              label="静态资源路径"
+              label="publicPath"
               placeholder="请输入"
               rules={[{ required: true, message: '请输入' }]}
             />
