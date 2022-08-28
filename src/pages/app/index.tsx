@@ -40,13 +40,17 @@ export default () => {
       title: '激活路由',
       dataIndex: 'activePath',
     },
+    // {
+    //   title: '静态资源',
+    //   dataIndex: 'url',
+    // },
+    // {
+    //   title: '静态资源路径',
+    //   dataIndex: 'publicPath',
+    // },
     {
       title: '页面标题',
       dataIndex: 'title',
-    },
-    {
-      title: '静态资源',
-      dataIndex: 'url',
     },
     {
       title: '创建时间',
@@ -54,7 +58,7 @@ export default () => {
       dataIndex: 'createdAt',
     },
     {
-      title: '创建时间',
+      title: '更新时间',
       key: 'showTime',
       dataIndex: 'updatedAt',
     },
@@ -176,6 +180,12 @@ export default () => {
               label="激活路由"
               placeholder="请输入"
               tooltip="识别到此路由加载子应用 例：/homePage"
+              rules={[{ required: true, message: '请输入' }]}
+            />
+            <ProFormText
+              name="publicPath"
+              label="静态资源路径"
+              placeholder="请输入"
               rules={[{ required: true, message: '请输入' }]}
             />
             <ProFormTextArea
