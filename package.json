@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
+    "dev": "HMR=none umi dev",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
@@ -22,7 +22,11 @@
     ]
   },
   "dependencies": {
+    "@ant-design/pro-components": "^1.1.20",
     "@ant-design/pro-layout": "^6.5.0",
+    "@hexagrams/plugin-ice-stark": "0.0.9",
+    "@ice/stark-app": "^1.5.0",
+    "antd": "^4.22.8",
     "react": "17.x",
     "react-dom": "17.x",
     "umi": "^3.5.33"

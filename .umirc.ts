@@ -1,11 +1,12 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
+  plugins: ['@hexagrams/plugin-ice-stark'],
+  iceStark: {
+    slave: {},
+  },
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [
-    { path: '/', component: '@/pages/index' },
-  ],
   fastRefresh: {},
 });
