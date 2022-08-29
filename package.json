@@ -28,11 +28,13 @@
     "@hexagrams/plugin-ice-stark": "0.0.9",
     "@ice/stark-app": "^1.5.0",
     "antd": "^4.22.8",
+    "jsoneditor": "^9.9.0",
     "react": "17.x",
     "react-dom": "17.x",
     "umi": "^3.5.33"
   },
   "devDependencies": {
+    "@types/jsoneditor": "^9.5.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "1.x",
