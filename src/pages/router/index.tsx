@@ -25,6 +25,10 @@ export default () => {
     const JSON_EDITOR = new JSONEditor(ref.current);
     jsoneditor.current = JSON_EDITOR;
     JSON_EDITOR.setMode('code');
+
+    return () => {
+      window.ace = null;
+    };
   }, []);
 
   useEffect(() => {
